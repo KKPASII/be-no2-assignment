@@ -6,7 +6,7 @@ import com.example.todolist.entity.Schedule;
 import java.util.List;
 import java.util.Optional;
 
-public interface ScehduleRepository {
+public interface ScheduleRepository {
     ScheduleResponseDto saveSchedule(Schedule schedule);
 
     List<ScheduleResponseDto> findAllSchedules();
@@ -15,7 +15,7 @@ public interface ScehduleRepository {
 
     Schedule findScheduleByIdOrElseThrow(Long id);
 
-    int updateSchedule(Long id, String writer, String title, String content);
+    int updateSchedule(Schedule schedule);
 
     int deleteSchedule(Long id);
 }

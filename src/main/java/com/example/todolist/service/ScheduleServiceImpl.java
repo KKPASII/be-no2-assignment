@@ -3,7 +3,7 @@ package com.example.todolist.service;
 import com.example.todolist.dto.ScheduleRequestDto;
 import com.example.todolist.dto.ScheduleResponseDto;
 import com.example.todolist.entity.Schedule;
-import com.example.todolist.repository.ScehduleRepository;
+import com.example.todolist.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,15 @@ import java.util.Optional;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
-    private final ScehduleRepository scheduleRepository;
+    private final ScheduleRepository scheduleRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public ScheduleServiceImpl(ScehduleRepository scehduleRepository, JdbcTemplate jdbcTemplate) {
-        this.scheduleRepository = scehduleRepository;
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository, JdbcTemplate jdbcTemplate) {
+        this.scheduleRepository = scheduleRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
-
+    
+    @Transactional
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
         Schedule schedule = new Schedule(dto);
@@ -41,18 +42,25 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<ScheduleResponseDto> findAllSchedules() {
-        List<ScheduleResponseDto> allSchedules = scheduleRepository.findAllSchedules();
-        return allSchedules;
+        return scheduleRepository.findAllSchedules();
     }
 
     @Transactional
     @Override
-    public ScheduleResponseDto updateSchedule(Long id, String writer, String title, String content) {
-        if (writer == null || title == null || content == null) {
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto) {
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+
+        if (!schedule.checkPassword(dto.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password.");
+        }
+
+        if (dto.getWriter() == null || dto.getTitle() == null || dto.getContent() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "writer, title, content are required values");
         }
 
-        int updatedRow = scheduleRepository.updateSchedule(id, writer, title, content);
+        schedule.update(dto);
+
+        int updatedRow = scheduleRepository.updateSchedule(schedule);
 
         if (updatedRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data has been modified.");
@@ -63,8 +71,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleResponseDto(optionalSchedule.get());
     }
 
+    @Transactional
     @Override
-    public void deleteSchedule(Long id) {
+    public void deleteSchedule(Long id, String password) {
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+
+        if (!schedule.checkPassword(password)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password.");
+        }
+
         int deletedRow = scheduleRepository.deleteSchedule(id);
 
         if (deletedRow == 0) {

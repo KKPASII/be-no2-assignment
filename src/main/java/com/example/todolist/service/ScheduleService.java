@@ -12,7 +12,7 @@ public interface ScheduleService {
 
     ScheduleResponseDto findScheduleById(Long id);
 
-    ScheduleResponseDto updateSchedule(Long id, String writer, String title, String content);
+    ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto);
 
-    void deleteSchedule(Long id);
+    void deleteSchedule(Long id, String password);
 }

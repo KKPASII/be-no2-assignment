@@ -17,11 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 @Repository
-public class JdbcTemplateScheduleRepository implements ScehduleRepository {
+public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -69,9 +67,10 @@ public class JdbcTemplateScheduleRepository implements ScehduleRepository {
         parameters.put("writer", schedule.getWriter());
         parameters.put("title", schedule.getTitle());
         parameters.put("content", schedule.getContent());
+        parameters.put("password", schedule.getPassword());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new ScheduleResponseDto(key.longValue(), schedule.getWriter(), schedule.getTitle(), schedule.getContent());
+        return new ScheduleResponseDto(key.longValue(), schedule.getWriter(), schedule.getTitle(), schedule.getContent(), schedule.getPassword());
     }
 
     @Override
@@ -93,9 +92,21 @@ public class JdbcTemplateScheduleRepository implements ScehduleRepository {
     }
 
     @Override
-    public int updateSchedule(Long id, String writer, String title, String content) {
-        return jdbcTemplate.update("update schedule set writer = ?, title = ?, content = ? where id = ?", writer, title, content, id);
+    public int updateSchedule(Schedule schedule) {
+        String sql = "UPDATE schedule SET writer = ?, title = ?, content = ?, updated_time = ? WHERE id = ?";
+        return jdbcTemplate.update(sql,
+                schedule.getWriter(),
+                schedule.getTitle(),
+                schedule.getContent(),
+                schedule.getUpdatedTime(),
+                schedule.getId()
+        );
     }
+
+//    @Override
+//    public int updateSchedule(Long id, String writer, String title, String content) {
+//        return jdbcTemplate.update("update schedule set writer = ?, title = ?, content = ? where id = ?", writer, title, content, id);
+//    }
 
     @Override
     public int deleteSchedule(Long id) {

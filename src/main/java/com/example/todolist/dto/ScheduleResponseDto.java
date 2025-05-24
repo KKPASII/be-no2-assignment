@@ -20,4 +20,11 @@ public class ScheduleResponseDto {
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
     }
+
+    public ScheduleResponseDto(long id, String writer, String title, String content, String password) {
+            this.id = id;
+            this.writer = writer;
+            this.title = title;
+            this.content = content;
+    }
 }
