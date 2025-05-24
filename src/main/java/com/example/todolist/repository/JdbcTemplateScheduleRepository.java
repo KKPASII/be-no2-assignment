@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,9 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         parameters.put("title", schedule.getTitle());
         parameters.put("content", schedule.getContent());
         parameters.put("password", schedule.getPassword());
+        parameters.put("created_time", schedule.getCreatedTime());
+        parameters.put("updated_time", schedule.getUpdatedTime());
+
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
         return new ScheduleResponseDto(key.longValue(), schedule.getWriter(), schedule.getTitle(), schedule.getContent(), schedule.getPassword());
@@ -93,7 +97,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
     @Override
     public int updateSchedule(Schedule schedule) {
-        String sql = "UPDATE schedule SET writer = ?, title = ?, content = ?, updated_time = ? WHERE id = ?";
+        String sql = "update schedule set writer = ?, title = ?, content = ?, updated_time = ? where id = ?";
         return jdbcTemplate.update(sql,
                 schedule.getWriter(),
                 schedule.getTitle(),

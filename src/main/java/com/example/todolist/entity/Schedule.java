@@ -25,7 +25,7 @@ public class Schedule {
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.password = dto.getPassword();
-        this.createdTime = LocalDateTime.now();;
+        this.createdTime = LocalDateTime.now();
         this.updatedTime = LocalDateTime.now();
     }
 
@@ -38,5 +38,13 @@ public class Schedule {
 
     public boolean checkPassword(String inputPassword) {
         return this.password.equals(inputPassword);
+    }
+
+    public void setCreatedTime(LocalDateTime now) {
+        this.createdTime = now;
+    }
+
+    public void setUpdatedTime(LocalDateTime now) {
+        this.updatedTime = now;
     }
 }

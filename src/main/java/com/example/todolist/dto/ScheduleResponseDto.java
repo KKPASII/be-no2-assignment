@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,6 +15,7 @@ public class ScheduleResponseDto {
     private String writer;
     private String title;
     private String content;
+
 
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();

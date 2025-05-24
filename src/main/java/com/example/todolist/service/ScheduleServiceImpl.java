@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +23,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.scheduleRepository = scheduleRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
-    
+
     @Transactional
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
         Schedule schedule = new Schedule(dto);
+        LocalDateTime now = LocalDateTime.now();
+        schedule.setCreatedTime(now);
+        schedule.setUpdatedTime(now);
         return scheduleRepository.saveSchedule(schedule);
     }
 
