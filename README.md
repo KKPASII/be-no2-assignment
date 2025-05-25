@@ -1,3 +1,5 @@
+### API 명세서
+
 1.일정 등록
 - POST /api/schedules
 - request: 요청 body
@@ -94,6 +96,8 @@
 - response: (없음)
 - 상태코드
   - 200: 삭제 성공
+
+### ERD
 
 [일정 관리 ERD v1]
 ![일정 관리 ERD](./일정관리_ERD_V1.png "일정 관리 애플리케이션 ERD")
