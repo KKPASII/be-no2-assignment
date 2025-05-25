@@ -2,17 +2,17 @@
 - POST /api/schedules
 - request: 요청 body
   - {
-    "writer": "홍길동",
-    "title": "주간 보고서 작성",
-    "content": "팀 프로젝트 주간 진행 상황 및 다음 주 계획 정리",
-    "password": "secure_password_123"
+    "writer": "ham",
+    "title": "과제2",
+    "content": "일정 관리 애플리케이션 만들기",
+    "password": "1234"
     }
 - response: 등록 정보
   - {
     "id": 1,
-    "writer": "홍길동",
-    "title": "주간 보고서 작성",
-    "content": "팀 프로젝트 주간 진행 상황 및 다음 주 계획 정리",
+    "writer": "ham",
+    "title": "과제2",
+    "content": "일정 관리 애플리케이션 만들기",
     "createdTime": "2025-05-25T10:00:00.123456",
     "updatedTime": "2025-05-25T10:00:00.123456"
     }
@@ -26,9 +26,9 @@
 - response:  응답 정보
   - {
     "id": 1,
-    "writer": "홍길동",
-    "title": "주간 보고서 작성",
-    "content": "팀 프로젝트 주간 진행 상황 및 다음 주 계획 정리",
+    "writer": "ham",
+     "title": "과제2",
+    "content": "일정 관리 애플리케이션 만들기",
     "createdTime": "2025-05-25T10:00:00.123456",
     "updatedTime": "2025-05-25T10:00:00.123456"
     }
@@ -42,20 +42,20 @@
 - response: 다건 응답 정보
   - [
     {
-    "id": 2,
-    "writer": "김철수",
-    "title": "헬스장 가기",
-    "content": "가슴 운동 3세트",
-    "createdTime": "2025-05-25T09:30:00.123456",
-    "updatedTime": "2025-05-25T11:15:00.789012"
+        "id": 4,
+        "writer": "seo",
+        "title": "밥 먹기",
+        "content": "닭찌, 쌀국수, 바나나",
+        "createdTime": "2025-05-25T09:11:16",
+        "updatedTime": "2025-05-25T09:11:43"
     },
     {
-    "id": 1,
-    "writer": "홍길동",
-    "title": "주간 보고서 작성",
-    "content": "팀 프로젝트 주간 진행 상황 및 다음 주 계획 정리",
-    "createdTime": "2025-05-25T10:00:00.123456",
-    "updatedTime": "2025-05-25T10:00:00.123456"
+        "id": 2,
+        "writer": "ham",
+        "title": "오늘의 운동",
+        "content": "스트레칭 하자",
+        "createdTime": "2025-05-25T08:33:20",
+        "updatedTime": "2025-05-25T08:33:20"
     }
     ]
 - 상태코드
@@ -65,28 +65,30 @@
 - PUT /api/schedules/{id}
 - request: 요청 body
   - {
-    "writer": "홍길동",
-    "title": "주간 보고서 최종 검토",
-    "content": "오탈자 확인 및 최종 제출 준비",
-    "password": "secure_password_123"
-    }
+    "id": 3,
+    "writer": "ham",
+    "title": "오늘의 청소",
+    "content": "화장실 청소, 바닥 청소",
+    "createdTime": "2025-05-25T08:47:02",
+    "updatedTime": "2025-05-25T08:47:02"
+  }
 - response: 수정 정보
   - {
-    "id": 1,
-    "writer": "홍길동",
-    "title": "주간 보고서 최종 검토",
-    "content": "오탈자 확인 및 최종 제출 준비",
-    "createdTime": "2025-05-25T10:00:00.123456",
-    "updatedTime": "2025-05-25T12:30:45.987654"
-    }
+    "id": 3,
+    "writer": "ham",
+    "title": "오늘의 청소",
+    "content": "화장실 청소, 바닥 청소",
+    "createdTime": "2025-05-25T08:47:02",
+    "updatedTime": "2025-05-25T08:47:02"
+    }  
 - 상태코드
   - 200: 수정 성공
 
 5.일정 삭제
 - DELETE /api/schedules/{id}
-- request: 요청 param
+- request: 요청 body
   - {
-    "password": "secure_password_123"
+    "password": "1234"
     }
 - response: (없음)
 - 상태코드
