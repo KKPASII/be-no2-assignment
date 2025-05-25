@@ -78,9 +78,10 @@
     "writer": "ham",
     "title": "오늘의 청소",
     "content": "화장실 청소, 바닥 청소",
+    "password": "1234",
     "createdTime": "2025-05-25T08:47:02",
-    "updatedTime": "2025-05-25T08:47:02"
-    }  
+    "updatedTime": "2025-05-25T09:23:43"
+  } 
 - 상태코드
   - 200: 수정 성공
 
