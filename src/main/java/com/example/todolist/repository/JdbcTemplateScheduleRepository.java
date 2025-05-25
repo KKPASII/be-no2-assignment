@@ -36,7 +36,9 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
                         rs.getLong("id"),
                         rs.getString("writer"),
                         rs.getString("title"),
-                        rs.getString("content")
+                        rs.getString("content"),
+                        rs.getTimestamp("created_time") != null ? rs.getTimestamp("created_time").toLocalDateTime() : null,
+                        rs.getTimestamp("updated_time") != null ? rs.getTimestamp("updated_time").toLocalDateTime() : null
                 );
             }
         };
@@ -74,12 +76,12 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new ScheduleResponseDto(key.longValue(), schedule.getWriter(), schedule.getTitle(), schedule.getContent(), schedule.getPassword());
+        return new ScheduleResponseDto(key.longValue(), schedule.getWriter(), schedule.getTitle(), schedule.getContent(), schedule.getPassword(), schedule.getCreatedTime(), schedule.getUpdatedTime());
     }
 
     @Override
     public List<ScheduleResponseDto> findAllSchedules() {
-        return jdbcTemplate.query("select * from schedule", scheduleRowMapper());
+        return jdbcTemplate.query("select * from schedule order by updated_time desc", scheduleRowMapper());
     }
 
     @Override
